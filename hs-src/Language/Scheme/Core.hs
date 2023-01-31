@@ -1,4 +1,5 @@
 {-# LANGUAGE CPP #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 {- |
 Module      : Language.Scheme.Core
@@ -65,12 +66,15 @@ import Language.Scheme.Variables
 import Control.Monad.Except
 import Data.Array
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BSC
 import qualified Data.Map
 import Data.Maybe (fromMaybe, isJust, isNothing)
 import Data.Version as DV
 import Data.Word
 import qualified System.Exit
 import qualified System.Info as SysInfo
+import qualified Data.Map as Map
+import Data.FileEmbed (embedDir)
 -- import Debug.Trace
 
 -- |Husk version number
@@ -104,6 +108,19 @@ getHuskFeatures = do
            , Atom "complex"
            , Atom "ratios"
            ]
+
+libraryFile :: FilePath -> BS.ByteString
+libraryFile path = fromMaybe mempty $ Map.lookup path dir where
+  dir = Map.fromList $(embedDir "lib")
+
+loadLibrary :: Env -> FilePath -> IO String
+loadLibrary env path = do
+  let src = BSC.unpack $ libraryFile path
+      loop _   []     = return nullLisp
+      loop env (x:xs) = evalLisp env x >> loop env xs
+  runIOThrowsREPL $ do
+    ast <- liftThrows $ readExprList src
+    show <$> loop env ast
 
 -- |Get the full path to a data file installed for husk
 getDataFileFullPath :: String -> IO String
@@ -1152,19 +1169,16 @@ r7rsEnv' = do
   -- Unfortunately this adds them in the top-level environment (!!)
   features <- getHuskFeatures
   _ <- evalString env $ "(define *features* '" ++ show (List features) ++ ")"
-  cxr <- PHS.getDataFileName "lib/cxr.scm"
-  _ <- evalString env {-baseEnv-} $ "(load \"" ++ (escapeBackslashes cxr) ++ "\")" 
-  core <- PHS.getDataFileName "lib/core.scm"
-  _ <- evalString env {-baseEnv-} $ "(load \"" ++ (escapeBackslashes core) ++ "\")" 
+  _ <- loadLibrary env {-baseEnv-} "cxr.scm"
+  _ <- loadLibrary env {-baseEnv-} "core.scm"
 
 -- TODO: probably will have to load some scheme libraries for modules.scm to work
 --  maybe the /base/ libraries from (scheme base) would be good enough?
 
 #ifdef UseLibraries
-  -- Load module meta-language 
-  metalib <- PHS.getDataFileName "lib/modules.scm"
+  -- Load module meta-language
   metaEnv <- nullEnvWithParent env -- Load env as parent of metaenv
-  _ <- evalString metaEnv $ "(load \"" ++ (escapeBackslashes metalib) ++ "\")"
+  _ <- loadLibrary metaEnv "modules.scm"
   -- Load meta-env so we can find it later
   _ <- evalLisp' env $ List [Atom "define", Atom "*meta-env*", LispEnv metaEnv]
   -- Load base primitives

@@ -50,7 +50,6 @@ Extra-Source-Files:  README.markdown
                      ChangeLog.markdown
                      LICENSE
                      AUTHORS
-Data-Files:          lib/*.scm lib/husk/*.sld lib/husk/*.scm lib/scheme/*.sld lib/srfi/*.scm lib/srfi/*.sld
 
 Source-Repository head
     Type:            git
@@ -73,7 +72,7 @@ flag useptrs
     default: True
 
 Library
-  Build-Depends:   base >= 2.0 && < 5, array, containers, haskeline, transformers, mtl, parsec, directory, bytestring, utf8-string, time, process, knob
+  Build-Depends:   base >= 2.0 && < 5, array, containers, haskeline, transformers, mtl, parsec, directory, bytestring, utf8-string, time, process, knob, file-embed
   Extensions:      ExistentialQuantification
   Hs-Source-Dirs:  hs-src
   Exposed-Modules: Language.Scheme.Core
