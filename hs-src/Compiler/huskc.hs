@@ -16,7 +16,9 @@ import Language.Scheme.Compiler.Types
 import qualified Language.Scheme.Core
 import Language.Scheme.Types     -- Scheme data types
 import Language.Scheme.Variables -- Scheme variable operations
+import Control.Monad
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import Data.Maybe (fromMaybe)
 import System.Console.GetOpt
 import System.FilePath (dropExtension)

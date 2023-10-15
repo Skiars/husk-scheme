@@ -28,6 +28,7 @@ import Language.Scheme.Types
 import Language.Scheme.Variables
 import Language.Scheme.Primitives (_gensym)
 import Control.Monad.Except
+import Control.Monad.IO.Class
 -- import Debug.Trace
 
 -- |Handle an explicit renaming macro

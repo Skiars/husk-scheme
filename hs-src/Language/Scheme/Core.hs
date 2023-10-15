@@ -63,7 +63,9 @@ import Language.Scheme.Primitives
 import Language.Scheme.Types
 import Language.Scheme.Util
 import Language.Scheme.Variables
+import Control.Monad
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import Data.Array
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BSC

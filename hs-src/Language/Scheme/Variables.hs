@@ -55,6 +55,7 @@ module Language.Scheme.Variables
     ) where
 import Language.Scheme.Types
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import Data.Array
 import Data.IORef
 import qualified Data.Map

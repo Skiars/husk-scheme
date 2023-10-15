@@ -20,6 +20,7 @@ module Language.Scheme.Libraries
 import Language.Scheme.Types
 import Language.Scheme.Variables
 import Control.Monad.Except
+import Control.Monad.IO.Class
 
 -- |Get the full path to a module file
 findModuleFile 

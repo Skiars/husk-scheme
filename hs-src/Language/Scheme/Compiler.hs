@@ -59,6 +59,7 @@ import Language.Scheme.Primitives
 import Language.Scheme.Types
 import Language.Scheme.Variables
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import qualified Data.List
 import Data.Maybe (fromMaybe)
 

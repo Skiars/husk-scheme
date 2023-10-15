@@ -161,7 +161,9 @@ import Language.Scheme.Parser
 import Language.Scheme.Types
 import Language.Scheme.Variables
 --import qualified Control.Exception
+import Control.Monad
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.UTF8 as BSU
 import Data.Char hiding (isSymbol)

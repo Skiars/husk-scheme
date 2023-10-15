@@ -23,6 +23,7 @@ import Language.Scheme.Primitives
 import Language.Scheme.Types
 import Language.Scheme.Variables
 import Control.Monad.Except
+import Control.Monad.IO.Class
 
 -- |Import all given modules and generate code for them
 importAll 

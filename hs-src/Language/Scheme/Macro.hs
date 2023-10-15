@@ -53,6 +53,7 @@ import Language.Scheme.Macro.ExplicitRenaming
 import qualified Language.Scheme.Macro.Matches as Matches
 import Language.Scheme.Primitives (_gensym)
 import Control.Monad.Except
+import Control.Monad.IO.Class
 import Data.Array
 -- import Debug.Trace -- Only req'd to support trace, can be disabled at any time...
 
